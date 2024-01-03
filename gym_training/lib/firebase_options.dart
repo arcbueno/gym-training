@@ -67,7 +67,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '375648482396',
     projectId: 'gym-training-a8f19',
     storageBucket: 'gym-training-a8f19.appspot.com',
-    iosClientId: '375648482396-mlo7nkjo54f06dvepb0vj68g2klebg67.apps.googleusercontent.com',
+    iosClientId:
+        '375648482396-mlo7nkjo54f06dvepb0vj68g2klebg67.apps.googleusercontent.com',
     iosBundleId: 'com.example.gymTraining',
   );
 
@@ -77,7 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '375648482396',
     projectId: 'gym-training-a8f19',
     storageBucket: 'gym-training-a8f19.appspot.com',
-    iosClientId: '375648482396-2leun0osf56p1f6h01r6l9n0a6lvprdd.apps.googleusercontent.com',
+    iosClientId:
+        '375648482396-2leun0osf56p1f6h01r6l9n0a6lvprdd.apps.googleusercontent.com',
     iosBundleId: 'com.example.gymTraining.RunnerTests',
   );
 }
