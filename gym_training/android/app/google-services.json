@@ -29,6 +29,13 @@
             {
               "client_id": "375648482396-uh2jj2vcbuurnpqkphkaenkh4chhsflh.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "375648482396-2leun0osf56p1f6h01r6l9n0a6lvprdd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gymTraining.RunnerTests"
+              }
             }
           ]
         }

@@ -5,3 +5,7 @@ extension EmptySpace on num {
 
   SizedBox get w => SizedBox(width: toDouble());
 }
+
+extension IsNullOrEmpty on String? {
+  bool get isNullOrEmpty => this == null || this!.isEmpty;
+}

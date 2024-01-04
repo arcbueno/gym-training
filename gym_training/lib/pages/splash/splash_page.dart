@@ -19,10 +19,10 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     controller.isUserLoggedin().then((isLogged) {
       if (isLogged) {
-        Get.to(const HomePage());
+        Get.offAll(() => const HomePage(), popGesture: false);
         return;
       }
-      Get.to(const LoginPage());
+      Get.offAll(() => const LoginPage(), popGesture: false);
     });
   }
 

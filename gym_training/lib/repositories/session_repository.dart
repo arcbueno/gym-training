@@ -6,15 +6,21 @@ import 'package:get_storage/get_storage.dart';
 import 'package:gym_training/models/session.dart';
 import 'package:gym_training/utils/shared_keys.dart';
 
-class FirebaseRepository {
+class SessionRepository {
   late final GetStorage sharedPreferences;
   late final FirebaseAuth firebaseAuth;
 
-  FirebaseRepository({
+  SessionRepository({
     required this.sharedPreferences,
     required this.firebaseAuth,
   }) {
     _startListener();
+  }
+
+  Session? getCurrentSession() {
+    var sessionString = sharedPreferences.read<String>(SharedKeys.userDataKey);
+    if (sessionString == null) return null;
+    return Session.fromJson(sessionString);
   }
 
   _startListener() {
@@ -28,14 +34,14 @@ class FirebaseRepository {
     });
   }
 
-  login(String emailAddress, String password) async {
+  Future<bool> login(String emailAddress, String password) async {
     try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailAddress,
         password: password,
       );
-      _createNewSession(credential);
+      await _createNewSession(credential);
+      return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         log('The password provided is too weak.');
@@ -45,16 +51,27 @@ class FirebaseRepository {
     } catch (e) {
       log(e.toString());
     }
+    return false;
   }
 
-  _createNewSession(UserCredential userCredential) {
+  Future<void> _createNewSession(UserCredential userCredential) async {
     if (userCredential.user == null) return;
     var newSession = Session(
       userEmail: userCredential.user!.email!,
-      userName: userCredential.user!.displayName!,
+      userName: userCredential.user?.displayName ?? '',
       userId: userCredential.user!.uid,
     );
 
-    sharedPreferences.write(SharedKeys.userDataKey, newSession);
+    await sharedPreferences.write(SharedKeys.userDataKey, newSession);
+  }
+
+  Future<bool> logout() async {
+    try {
+      await sharedPreferences.remove(SharedKeys.userDataKey);
+      return true;
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
   }
 }
