@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_training/pages/home/home_controller.dart';
+import 'package:gym_training/pages/home/state.dart';
 import 'package:gym_training/pages/login/login_page.dart';
-import 'package:gym_training/utils/extensions.dart';
+import 'package:gym_training/widgets/home_training_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,6 +18,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _controller = Get.find<HomeController>();
+    _controller.getAll();
     super.initState();
   }
 
@@ -48,12 +50,32 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: Column(
-          children: [
-            32.h,
-          ],
+        child: Obx(
+          () => Stack(
+            children: [
+              Column(
+                children: [
+                  if (_controller.state.value is HomeSuccess)
+                    HomeTrainingList(
+                      trainingList:
+                          (_controller.state.value as HomeSuccess).trainingList,
+                      onNewTraining: _onNewTraining,
+                    ),
+                  if (_controller.state.value is HomeError)
+                    Text((_controller.state.value as HomeError).errorMessage),
+                ],
+              ),
+              if (_controller.state.value is HomeLoading ||
+                  _controller.state.value is HomeInit)
+                const Center(
+                  child: CircularProgressIndicator(),
+                ),
+            ],
+          ),
         ),
       ),
     );
   }
+
+  _onNewTraining() {}
 }
