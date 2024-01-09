@@ -14,12 +14,25 @@ class HomeTrainingList extends StatelessWidget {
     if (trainingList.isEmpty) {
       return HomeEmptyList(onNewTraining: onNewTraining);
     }
-    return ListView.builder(
-      itemCount: trainingList.length,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return TrainingListItem(trainingDay: trainingList[index]);
-      },
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            OutlinedButton(
+              onPressed: onNewTraining,
+              child: const Icon(Icons.add),
+            ),
+          ],
+        ),
+        ListView.builder(
+          itemCount: trainingList.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return TrainingListItem(trainingDay: trainingList[index]);
+          },
+        ),
+      ],
     );
   }
 }

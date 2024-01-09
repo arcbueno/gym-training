@@ -42,27 +42,27 @@ class _AddExerciseFormState extends State<AddExerciseForm> {
       child: SingleChildScrollView(
         child: Form(
           key: _formKey,
-          child: Column(
-            children: [
-              CustomFormField(
-                controller: _nameController,
-                hintText: 'Name',
-                validator: (value) {
-                  if (value.isNullOrEmpty) return 'Required field';
-                  return null;
-                },
-                maxLines: 1,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Row(
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              children: [
+                CustomFormField(
+                  controller: _nameController,
+                  hintText: 'Name',
+                  validator: (value) {
+                    if (value.isNullOrEmpty) return 'Required field';
+                    return null;
+                  },
+                  maxLines: 1,
+                ),
+                12.h,
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      width: 100,
+                      width: MediaQuery.sizeOf(context).width / 3,
                       child: CustomFormField(
                         controller: _setsController,
-                        contentPadding: const EdgeInsets.all(8),
                         hintText: 'Sets',
                         maxLines: 1,
                         keyboardType: TextInputType.number,
@@ -77,13 +77,12 @@ class _AddExerciseFormState extends State<AddExerciseForm> {
                     ),
                     Text(
                       'of',
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                     SizedBox(
-                      width: 100,
+                      width: MediaQuery.sizeOf(context).width / 3,
                       child: CustomFormField(
                         controller: _repsController,
-                        contentPadding: const EdgeInsets.all(8),
                         hintText: 'Reps',
                         maxLines: 1,
                         validator: (value) {
@@ -98,37 +97,40 @@ class _AddExerciseFormState extends State<AddExerciseForm> {
                     ),
                   ],
                 ),
-              ),
-              12.h,
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: CustomFormField(
+                12.h,
+                CustomFormField(
                   controller: _observationController,
-                  contentPadding: const EdgeInsets.all(8),
                   hintText: 'Exercise obs',
                   maxLines: null,
                 ),
-              ),
-              24.h,
-              ElevatedButton(
-                onPressed: () async {
-                  var success = _formKey.currentState?.validate();
-                  if (success ?? false) {
-                    var newExercise = Exercise(
-                      id: const Uuid().v1(),
-                      name: _nameController.text,
-                      reps: int.tryParse(_repsController.text) ?? 0,
-                      sets: int.tryParse(_setsController.text) ?? 0,
-                      observation: _observationController.text,
-                    );
+                24.h,
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width / 1.5,
+                  height: 48,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      textStyle: const TextStyle(fontSize: 22),
+                    ),
+                    onPressed: () async {
+                      var success = _formKey.currentState?.validate();
+                      if (success ?? false) {
+                        var newExercise = Exercise(
+                          id: const Uuid().v1(),
+                          name: _nameController.text,
+                          reps: int.tryParse(_repsController.text) ?? 0,
+                          sets: int.tryParse(_setsController.text) ?? 0,
+                          observation: _observationController.text,
+                        );
 
-                    widget.onAdd(newExercise);
-                    Get.back();
-                  }
-                },
-                child: const Text('Add new exercise'),
-              ),
-            ],
+                        widget.onAdd(newExercise);
+                        Get.back();
+                      }
+                    },
+                    child: const Text('Add'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
