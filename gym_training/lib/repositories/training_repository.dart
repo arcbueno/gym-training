@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gym_training/models/training_day.dart';
 import 'package:gym_training/repositories/session_repository.dart';
@@ -18,5 +20,11 @@ class TrainingRepository {
       all.add(TrainingDay.fromFirebase(element));
     }
     return all;
+  }
+
+  Future<void> createNew(TrainingDay trainingDay) async {
+    var result =
+        await firestore.collection(collectionName).add(trainingDay.toMapNew());
+    log('Created task with id: ${result.id}');
   }
 }

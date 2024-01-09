@@ -1,16 +1,16 @@
 class Exercise {
-  late final String? id;
-  late final String name;
-  late final String observation;
-  late final int reps;
-  late final int sets;
+  late String? id;
+  late String name;
+  late String? observation;
+  late int reps;
+  late int sets;
 
   Exercise({
     this.id,
     required this.name,
-    required this.observation,
     required this.reps,
     required this.sets,
+    this.observation,
   });
 
   Exercise copyWith({
@@ -29,14 +29,13 @@ class Exercise {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMapNew() {
     final result = <String, dynamic>{};
 
-    if (id != null) {
-      result.addAll({'id': id!});
+    if (observation != null) {
+      result.addAll({'observation': observation});
     }
     result.addAll({'name': name});
-    result.addAll({'observation': observation});
     result.addAll({'reps': reps});
     result.addAll({'sets': sets});
 
@@ -51,5 +50,26 @@ class Exercise {
       reps: map['reps'],
       sets: map['sets'],
     );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Exercise &&
+        other.id == id &&
+        other.name == name &&
+        other.observation == observation &&
+        other.reps == reps &&
+        other.sets == sets;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        name.hashCode ^
+        observation.hashCode ^
+        reps.hashCode ^
+        sets.hashCode;
   }
 }

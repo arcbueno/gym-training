@@ -16,6 +16,7 @@ class HomeTrainingList extends StatelessWidget {
     }
     return ListView.builder(
       itemCount: trainingList.length,
+      shrinkWrap: true,
       itemBuilder: (context, index) {
         return TrainingListItem(trainingDay: trainingList[index]);
       },

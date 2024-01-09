@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:gym_training/models/training_day.dart';
 import 'package:gym_training/pages/home/state.dart';
 import 'package:gym_training/repositories/session_repository.dart';
 import 'package:gym_training/repositories/training_repository.dart';

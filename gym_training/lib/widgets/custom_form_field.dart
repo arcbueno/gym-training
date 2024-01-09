@@ -1,18 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomFormField extends StatefulWidget {
   final String hintText;
-  final void Function(String) onChanged;
+  final void Function(String)? onChanged;
+  final TextEditingController? controller;
   final String? Function(String?)? validator;
   final bool isPassword;
+  final int? maxLines;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
+  final EdgeInsetsGeometry? contentPadding;
+  final String? initialValue;
 
   const CustomFormField({
     super.key,
     required this.hintText,
-    required this.onChanged,
+    this.onChanged,
+    this.controller,
     this.isPassword = false,
     this.validator,
-  });
+    this.maxLines,
+    this.keyboardType,
+    this.inputFormatters,
+    this.contentPadding,
+    this.initialValue,
+  }) : assert(controller != null || onChanged != null);
 
   @override
   State<CustomFormField> createState() => _CustomFormFieldState();
@@ -30,7 +43,10 @@ class _CustomFormFieldState extends State<CustomFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.controller,
+      initialValue: widget.initialValue,
       decoration: InputDecoration(
+        contentPadding: widget.contentPadding,
         border: const OutlineInputBorder(
           borderSide: BorderSide(width: 5.0),
           borderRadius: BorderRadius.all(
@@ -56,6 +72,9 @@ class _CustomFormFieldState extends State<CustomFormField> {
       onChanged: widget.onChanged,
       validator: widget.validator,
       obscureText: showPassword,
+      maxLines: widget.isPassword ? 1 : widget.maxLines,
+      keyboardType: widget.keyboardType,
+      inputFormatters: widget.inputFormatters,
     );
   }
 }

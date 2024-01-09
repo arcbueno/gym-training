@@ -6,12 +6,14 @@ class TrainingDay {
   late final String title;
   late final DateTime? lastTimeExecuted;
   late final List<Exercise> exercises;
+  late final String? observation;
 
   TrainingDay({
     this.id,
     required this.title,
     required this.exercises,
     this.lastTimeExecuted,
+    this.observation,
   });
 
   TrainingDay copyWith({
@@ -19,26 +21,28 @@ class TrainingDay {
     String? title,
     DateTime? lastTimeExecuted,
     List<Exercise>? exercises,
+    String? observation,
   }) {
     return TrainingDay(
       id: id ?? this.id,
       title: title ?? this.title,
       lastTimeExecuted: lastTimeExecuted ?? this.lastTimeExecuted,
       exercises: exercises ?? this.exercises,
+      observation: observation ?? this.observation,
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMapNew() {
     final result = <String, dynamic>{};
 
-    if (id != null) {
-      result.addAll({'id': id!});
-    }
     result.addAll({'title': title});
     result.addAll({'lastTimeExecuted': lastTimeExecuted});
     result.addAll({
-      'exercises': exercises.map((e) => e.toMap()).toList(),
+      'exercises': exercises.map((e) => e.toMapNew()).toList(),
     });
+    if (observation != null) {
+      result.addAll({'observation': observation!});
+    }
 
     return result;
   }
@@ -48,7 +52,8 @@ class TrainingDay {
         id: doc.id,
         title: doc.data()!["title"],
         lastTimeExecuted: doc.data()!["lastTimeExecuted"],
-        exercises: (doc.data()!["exercises"] as List<Map<String, dynamic>>)
+        observation: doc.data()!["observation"],
+        exercises: (doc.data()!["exercises"] as List<dynamic>)
             .map((e) => Exercise.fromMap(e))
             .toList());
   }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:gym_training/pages/home/home_controller.dart';
 import 'package:gym_training/pages/home/state.dart';
 import 'package:gym_training/pages/login/login_page.dart';
+import 'package:gym_training/pages/new_training/new_training_page.dart';
 import 'package:gym_training/widgets/home_training_list.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           'My training list',
           style: Theme.of(context).textTheme.titleLarge,
@@ -77,5 +79,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _onNewTraining() {}
+  _onNewTraining() async {
+    await Get.to(() => const NewTrainingPage());
+    await _controller.getAll();
+  }
 }
