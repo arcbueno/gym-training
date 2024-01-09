@@ -62,6 +62,8 @@ class _HomePageState extends State<HomePage> {
                       trainingList:
                           (_controller.state.value as HomeSuccess).trainingList,
                       onNewTraining: _onNewTraining,
+                      onRemove: (value) => _controller.onRemove(value),
+                      onUpdate: (_) {},
                     ),
                   if (_controller.state.value is HomeError)
                     Text((_controller.state.value as HomeError).errorMessage),

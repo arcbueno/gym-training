@@ -6,8 +6,15 @@ import 'package:gym_training/widgets/training_list_item.dart';
 class HomeTrainingList extends StatelessWidget {
   final List<TrainingDay> trainingList;
   final void Function() onNewTraining;
-  const HomeTrainingList(
-      {super.key, required this.trainingList, required this.onNewTraining});
+  final void Function(TrainingDay) onRemove;
+  final void Function(TrainingDay) onUpdate;
+  const HomeTrainingList({
+    super.key,
+    required this.trainingList,
+    required this.onNewTraining,
+    required this.onRemove,
+    required this.onUpdate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +36,11 @@ class HomeTrainingList extends StatelessWidget {
           itemCount: trainingList.length,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            return TrainingListItem(trainingDay: trainingList[index]);
+            return TrainingListItem(
+              trainingDay: trainingList[index],
+              onRemove: onRemove,
+              onUpdate: onUpdate,
+            );
           },
         ),
       ],

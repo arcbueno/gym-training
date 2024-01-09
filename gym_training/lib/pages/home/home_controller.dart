@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:gym_training/models/training_day.dart';
 import 'package:gym_training/pages/home/state.dart';
 import 'package:gym_training/repositories/session_repository.dart';
 import 'package:gym_training/repositories/training_repository.dart';
@@ -23,6 +24,16 @@ class HomeController {
       state.value = HomeLoading();
       var trainingList = await trainingRepository.getAll();
       state.value = HomeSuccess(trainingList: trainingList);
+    } catch (e) {
+      state.value = HomeError(errorMessage: e.toString());
+    }
+  }
+
+  Future<void> onRemove(TrainingDay training) async {
+    try {
+      state.value = HomeLoading();
+      await trainingRepository.remove(training);
+      await getAll();
     } catch (e) {
       state.value = HomeError(errorMessage: e.toString());
     }

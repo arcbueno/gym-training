@@ -27,4 +27,8 @@ class TrainingRepository {
         await firestore.collection(collectionName).add(trainingDay.toMapNew());
     log('Created task with id: ${result.id}');
   }
+
+  Future<void> remove(TrainingDay trainingDay) async {
+    await firestore.collection(collectionName).doc(trainingDay.id).delete();
+  }
 }

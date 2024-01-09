@@ -21,18 +21,9 @@ class NewExerciseField extends StatelessWidget {
         icon: const Icon(Icons.cancel),
       ),
       tilePadding: EdgeInsets.zero,
-      title: Row(
-        children: [
-          Text(
-            item.name,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const VerticalDivider(
-            color: Colors.black,
-            thickness: 1,
-          ),
-          12.w,
-        ],
+      title: Text(
+        item.name,
+        style: Theme.of(context).textTheme.titleLarge,
       ),
       expandedAlignment: Alignment.centerLeft,
       children: [
