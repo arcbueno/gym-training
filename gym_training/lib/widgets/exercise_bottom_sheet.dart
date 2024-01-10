@@ -14,6 +14,7 @@ class ExerciseBottomSheet {
   ) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (context) {
         return AddExerciseForm(onAdd: onAdd);
       },
@@ -44,7 +45,8 @@ class _AddExerciseFormState extends State<AddExerciseForm> {
         child: Form(
           key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.all(32),
+            padding: const EdgeInsets.all(32).add(EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom)),
             child: Column(
               children: [
                 CustomFormField(

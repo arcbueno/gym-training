@@ -29,8 +29,8 @@ class AppBindings extends Bindings {
 
     // Home
     Get.put(FirebaseFirestore.instance);
-    Get.put(
-      TrainingRepository(
+    Get.lazyPut(
+      () => TrainingRepository(
         firestore: Get.find(),
         sessionRepository: Get.find(),
       ),
