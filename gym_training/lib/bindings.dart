@@ -7,6 +7,7 @@ import 'package:gym_training/pages/splash/splash_controller.dart';
 // ignore: depend_on_referenced_packages
 import 'package:get_storage/get_storage.dart';
 import 'package:gym_training/repositories/session_repository.dart';
+import 'package:gym_training/repositories/training_execution_repository.dart';
 import 'package:gym_training/repositories/training_repository.dart';
 
 class AppBindings extends Bindings {
@@ -38,6 +39,14 @@ class AppBindings extends Bindings {
       HomeController(
         sessionRepository: Get.find(),
         trainingRepository: Get.find(),
+      ),
+    );
+
+    // Execution
+    Get.put(
+      TrainingExecutionRepository(
+        firestore: Get.find(),
+        sessionRepository: Get.find(),
       ),
     );
   }

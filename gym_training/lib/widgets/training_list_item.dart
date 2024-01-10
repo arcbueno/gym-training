@@ -17,7 +17,20 @@ class TrainingListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(trainingDay.title),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              trainingDay.title,
+            ),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.play_arrow_rounded),
+          )
+        ],
+      ),
       trailing: PopupMenuButton(
         itemBuilder: (context) => <PopupMenuEntry>[
           PopupMenuItem(

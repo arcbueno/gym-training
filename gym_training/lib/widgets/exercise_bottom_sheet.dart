@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:gym_training/models/exercise.dart';
 import 'package:gym_training/widgets/custom_form_field.dart';
 import 'package:gym_training/utils/extensions.dart';
+import 'package:gym_training/widgets/save_button.dart';
 import 'package:uuid/uuid.dart';
 
 class ExerciseBottomSheet {
@@ -107,10 +108,7 @@ class _AddExerciseFormState extends State<AddExerciseForm> {
                 SizedBox(
                   width: MediaQuery.sizeOf(context).width / 1.5,
                   height: 48,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      textStyle: const TextStyle(fontSize: 22),
-                    ),
+                  child: SaveButton(
                     onPressed: () async {
                       var success = _formKey.currentState?.validate();
                       if (success ?? false) {
@@ -126,7 +124,7 @@ class _AddExerciseFormState extends State<AddExerciseForm> {
                         Get.back();
                       }
                     },
-                    child: const Text('Add'),
+                    title: 'Add',
                   ),
                 ),
               ],
