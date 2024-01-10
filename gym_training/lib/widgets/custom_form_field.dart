@@ -12,6 +12,9 @@ class CustomFormField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final EdgeInsetsGeometry? contentPadding;
   final String? initialValue;
+  final void Function()? onTap;
+  final bool readOnly;
+  final TextAlign? textAlign;
 
   const CustomFormField({
     super.key,
@@ -25,6 +28,9 @@ class CustomFormField extends StatefulWidget {
     this.inputFormatters,
     this.contentPadding,
     this.initialValue,
+    this.onTap,
+    this.readOnly = false,
+    this.textAlign,
   }) : assert(controller != null || onChanged != null);
 
   @override
@@ -43,7 +49,10 @@ class _CustomFormFieldState extends State<CustomFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: widget.readOnly,
+      showCursor: !widget.readOnly,
       controller: widget.controller,
+      textAlign: widget.textAlign ?? TextAlign.start,
       initialValue: widget.initialValue,
       decoration: InputDecoration(
         contentPadding: widget.contentPadding,
@@ -69,6 +78,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
                     : const Icon(Icons.visibility_off),
               ),
       ),
+      onTap: widget.onTap,
       onChanged: widget.onChanged,
       validator: widget.validator,
       obscureText: showPassword,

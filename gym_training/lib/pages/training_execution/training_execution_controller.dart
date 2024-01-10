@@ -13,6 +13,7 @@ class TrainingExecutionController {
   late final TrainingExecutionRepository trainingExecutionRepository;
   late final TrainingDay trainingDay;
   TrainingExecution? lastTraining;
+  DateTime? doneDate;
 
   final Rx<TrainingExecutionState> state =
       Rx<TrainingExecutionState>(TraningExecutionEmpty());
@@ -64,7 +65,7 @@ class TrainingExecutionController {
     try {
       state.value = TraningExecutionLoading();
       var execution = TrainingExecution(
-        executionDate: DateTime.now(),
+        executionDate: doneDate ?? DateTime.now(),
         trainingId: trainingDay.id,
         exerciseExecutions: executions,
       );

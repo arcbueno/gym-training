@@ -18,6 +18,7 @@ class TrainingExecutionPage extends StatefulWidget {
 
 class _TrainingExecutionPageState extends State<TrainingExecutionPage> {
   late final TrainingExecutionController _controller;
+  final TextEditingController _dateController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -32,48 +33,50 @@ class _TrainingExecutionPageState extends State<TrainingExecutionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            widget.trainingDay.title,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          widget.trainingDay.title,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
-        body: Obx(
-          () {
-            return SingleChildScrollView(
-              child: Form(
-                key: _formKey,
-                child: Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: Stack(
-                    children: [
-                      Column(
-                        children: [
-                          AnimatedSize(
-                            curve: Curves.easeIn.flipped,
-                            duration: const Duration(milliseconds: 300),
-                            child: _controller.state.value
-                                    is TraningExecutionError
-                                ? Padding(
-                                    padding: const EdgeInsets.only(bottom: 12),
-                                    child: Text(
-                                      (_controller.state.value
-                                              as TraningExecutionError)
-                                          .errorMessage,
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleSmall!
-                                          .copyWith(color: Colors.red.shade300),
-                                    ),
-                                  )
-                                : const SizedBox(),
-                          ),
-                          ListView.separated(
+      ),
+      body: Obx(
+        () {
+          return SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: Stack(
+                  children: [
+                    Column(
+                      children: [
+                        AnimatedSize(
+                          curve: Curves.easeIn.flipped,
+                          duration: const Duration(milliseconds: 300),
+                          child: _controller.state.value
+                                  is TraningExecutionError
+                              ? Padding(
+                                  padding: const EdgeInsets.only(bottom: 12),
+                                  child: Text(
+                                    (_controller.state.value
+                                            as TraningExecutionError)
+                                        .errorMessage,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(color: Colors.red.shade300),
+                                  ),
+                                )
+                              : const SizedBox(),
+                        ),
+                        MediaQuery.removePadding(
+                          context: context,
+                          removeBottom: true,
+                          child: ListView.separated(
                             shrinkWrap: true,
                             itemCount: _controller.executions.length,
                             itemBuilder: (context, index) {
@@ -153,39 +156,88 @@ class _TrainingExecutionPageState extends State<TrainingExecutionPage> {
                               return const Divider();
                             },
                           ),
-                          const Divider(),
-                          CheckboxListTile(
-                            value: _controller.useTodaysDate.value,
-                            title: const Text('Use today\'s date?'),
-                            onChanged: (_) {
-                              _controller.useTodaysDate.value =
-                                  !_controller.useTodaysDate.value;
-                            },
-                          ),
-                          SaveButton(
-                            onPressed: () async {
-                              if (_formKey.currentState?.validate() ?? false) {
-                                var success = await _controller.save();
-                                if (success) {
-                                  Get.back();
-                                }
-                              }
-                            },
-                            title: 'Save',
-                          ),
-                        ],
-                      ),
-                      if (_controller.state.value is TraningExecutionLoading)
-                        const Center(
-                          child: CircularProgressIndicator(),
                         ),
-                    ],
-                  ),
+                        12.h,
+                        const Divider(
+                          thickness: 1,
+                          height: 1,
+                        ),
+                        CheckboxListTile(
+                          value: _controller.useTodaysDate.value,
+                          title: const Text('Use today\'s date?'),
+                          onChanged: (_) {
+                            _controller.useTodaysDate.value =
+                                !_controller.useTodaysDate.value;
+                          },
+                        ),
+                        AnimatedSize(
+                          curve: Curves.easeIn.flipped,
+                          duration: const Duration(milliseconds: 300),
+                          child: _controller.useTodaysDate.value
+                              ? const SizedBox()
+                              : Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const Expanded(
+                                        child: Text(
+                                          'So, when this training was done?',
+                                        ),
+                                      ),
+                                      24.w,
+                                      SizedBox(
+                                        width: 100,
+                                        child: CustomFormField(
+                                          textAlign: TextAlign.center,
+                                          readOnly: true,
+                                          contentPadding:
+                                              const EdgeInsets.all(8),
+                                          hintText: 'Date',
+                                          controller: _dateController,
+                                          maxLines: 1,
+                                          onTap: () async {
+                                            var date = await showDatePicker(
+                                              context: context,
+                                              firstDate: DateTime(2000),
+                                              lastDate: DateTime.now(),
+                                            );
+                                            if (date == null) return;
+                                            _dateController.text =
+                                                '${date.month}/${date.day}/${date.year}';
+                                            _controller.doneDate = date;
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                        ),
+                        24.h,
+                        SaveButton(
+                          onPressed: () async {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              var success = await _controller.save();
+                              if (success) {
+                                Get.back();
+                              }
+                            }
+                          },
+                          title: 'Save',
+                        ),
+                      ],
+                    ),
+                    if (_controller.state.value is TraningExecutionLoading)
+                      const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                  ],
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

@@ -25,7 +25,7 @@ class SessionRepository {
   }
 
   _startListener() {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    firebaseAuth.authStateChanges().listen((User? user) {
       if (user == null) {
         log('User is currently signed out!');
         // logOut();
@@ -63,12 +63,13 @@ class SessionRepository {
       userId: userCredential.user!.uid,
     );
 
-    await sharedPreferences.write(SharedKeys.userDataKey, newSession);
+    await sharedPreferences.write(SharedKeys.userDataKey, newSession.toJson());
   }
 
   Future<bool> logout() async {
     try {
       await sharedPreferences.remove(SharedKeys.userDataKey);
+      await firebaseAuth.signOut();
       return true;
     } catch (e) {
       log(e.toString());
