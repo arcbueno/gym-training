@@ -37,16 +37,16 @@ class TrainingListItem extends StatelessWidget {
       ),
       trailing: PopupMenuButton(
         itemBuilder: (context) => <PopupMenuEntry>[
-          PopupMenuItem(
-            onTap: () => onUpdate(trainingDay),
-            child: Row(
-              children: [
-                const Icon(Icons.edit),
-                4.w,
-                const Text('Update'),
-              ],
-            ),
-          ),
+          // PopupMenuItem(
+          //   onTap: () => onUpdate(trainingDay),
+          //   child: Row(
+          //     children: [
+          //       const Icon(Icons.edit),
+          //       4.w,
+          //       const Text('Update'),
+          //     ],
+          //   ),
+          // ),
           PopupMenuItem(
             onTap: () => onRemove(trainingDay),
             child: Row(

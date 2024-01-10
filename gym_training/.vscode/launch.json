@@ -8,21 +8,10 @@
             "name": "prod",
             "request": "launch",
             "type": "dart",
-            // "toolArgs": [
-            //     "--dart-define-from-file=.env/prod.json"
-            // ]
+            "toolArgs": [
+                "--dart-define-from-file",
+                ".env/prod.json"
+            ]
         },
-        {
-            "name": "gym_training (profile mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "gym_training (release mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        }
     ]
 }
