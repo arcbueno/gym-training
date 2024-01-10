@@ -1,6 +1,7 @@
 import 'package:gym_training/models/training_day.dart';
+import 'package:gym_training/states.dart';
 
-abstract class HomeState {}
+abstract class HomeState extends State {}
 
 class HomeInit extends HomeState {
   final List<TrainingDay> trainingList = [];

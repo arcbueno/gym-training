@@ -1,20 +1,20 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gym_training/models/exercise.dart';
+import 'package:uuid/uuid.dart';
 
 class TrainingDay {
-  late final String? id;
+  late final String id;
   late final String title;
   late final DateTime? lastTimeExecuted;
   late final List<Exercise> exercises;
   late final String? observation;
 
   TrainingDay({
-    this.id,
+    String? itemId,
     required this.title,
     required this.exercises,
     this.lastTimeExecuted,
     this.observation,
-  });
+  }) : id = itemId ?? const Uuid().v1();
 
   TrainingDay copyWith({
     String? id,
@@ -24,7 +24,7 @@ class TrainingDay {
     String? observation,
   }) {
     return TrainingDay(
-      id: id ?? this.id,
+      itemId: id ?? this.id,
       title: title ?? this.title,
       lastTimeExecuted: lastTimeExecuted ?? this.lastTimeExecuted,
       exercises: exercises ?? this.exercises,
@@ -37,6 +37,7 @@ class TrainingDay {
 
     result.addAll({'title': title});
     result.addAll({'lastTimeExecuted': lastTimeExecuted});
+    result.addAll({'id': id});
     result.addAll({
       'exercises': exercises.map((e) => e.toMapNew()).toList(),
     });
@@ -47,13 +48,13 @@ class TrainingDay {
     return result;
   }
 
-  static TrainingDay fromFirebase(DocumentSnapshot<Map<String, dynamic>> doc) {
+  static TrainingDay fromFirebase(Map<String, dynamic> data) {
     return TrainingDay(
-        id: doc.id,
-        title: doc.data()!["title"],
-        lastTimeExecuted: doc.data()!["lastTimeExecuted"],
-        observation: doc.data()!["observation"],
-        exercises: (doc.data()!["exercises"] as List<dynamic>)
+        itemId: data["id"],
+        title: data["title"],
+        lastTimeExecuted: data["lastTimeExecuted"],
+        observation: data["observation"],
+        exercises: (data["exercises"] as List<dynamic>)
             .map((e) => Exercise.fromMap(e))
             .toList());
   }

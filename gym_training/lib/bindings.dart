@@ -34,20 +34,23 @@ class AppBindings extends Bindings {
         firestore: Get.find(),
         sessionRepository: Get.find(),
       ),
+      fenix: true,
     );
-    Get.put(
-      HomeController(
+    Get.lazyPut(
+      () => HomeController(
         sessionRepository: Get.find(),
         trainingRepository: Get.find(),
       ),
+      fenix: true,
     );
 
     // Execution
-    Get.put(
-      TrainingExecutionRepository(
+    Get.lazyPut(
+      () => TrainingExecutionRepository(
         firestore: Get.find(),
         sessionRepository: Get.find(),
       ),
+      fenix: true,
     );
   }
 }

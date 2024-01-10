@@ -1,18 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gym_training/models/exercise_executions.dart';
+import 'package:uuid/uuid.dart';
 
 class TrainingExecution {
-  late final String? id;
+  late final String id;
   late final DateTime executionDate;
   late final String trainingId;
   late final List<ExerciseExecution> exerciseExecutions;
 
   TrainingExecution({
-    this.id,
+    String? itemId,
     required this.executionDate,
     required this.trainingId,
     required this.exerciseExecutions,
-  });
+  }) : id = itemId ?? const Uuid().v1();
 
   TrainingExecution copyWith({
     String? id,
@@ -21,7 +21,7 @@ class TrainingExecution {
     List<ExerciseExecution>? exerciseExecutions,
   }) {
     return TrainingExecution(
-      id: id ?? this.id,
+      itemId: id ?? this.id,
       executionDate: executionDate ?? this.executionDate,
       trainingId: trainingId ?? this.trainingId,
       exerciseExecutions: exerciseExecutions ?? this.exerciseExecutions,
@@ -31,9 +31,7 @@ class TrainingExecution {
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
 
-    if (id != null) {
-      result.addAll({'id': id!});
-    }
+    result.addAll({'id': id});
     result.addAll({'executionDate': executionDate});
     result.addAll({'trainingId': trainingId});
     result.addAll({
@@ -43,13 +41,12 @@ class TrainingExecution {
     return result;
   }
 
-  static TrainingExecution fromFirebase(
-      DocumentSnapshot<Map<String, dynamic>> doc) {
+  static TrainingExecution fromFirebase(Map<String, dynamic> data) {
     return TrainingExecution(
-      id: doc.id,
-      executionDate: doc.data()!["executionDate"],
-      trainingId: doc.data()!["trainingId"],
-      exerciseExecutions: (doc.data()!["exerciseExecutions"] as List<dynamic>)
+      itemId: data['id'],
+      executionDate: (data["executionDate"]).toDate(),
+      trainingId: data["trainingId"],
+      exerciseExecutions: (data["exerciseExecutions"] as List<dynamic>)
           .map((e) => ExerciseExecution.fromMap(e))
           .toList(),
     );

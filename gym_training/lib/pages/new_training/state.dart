@@ -1,4 +1,6 @@
-abstract class NewTrainingState {}
+import 'package:gym_training/states.dart';
+
+abstract class NewTrainingState extends State {}
 
 class NewTrainingInit extends NewTrainingState {}
 

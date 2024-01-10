@@ -5,7 +5,6 @@ import 'package:gym_training/models/exercise.dart';
 import 'package:gym_training/widgets/custom_form_field.dart';
 import 'package:gym_training/utils/extensions.dart';
 import 'package:gym_training/widgets/save_button.dart';
-import 'package:uuid/uuid.dart';
 
 class ExerciseBottomSheet {
   show(
@@ -45,8 +44,9 @@ class _AddExerciseFormState extends State<AddExerciseForm> {
         child: Form(
           key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.all(32).add(EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom)),
+            padding: const EdgeInsets.all(32).add(
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+            ),
             child: Column(
               children: [
                 CustomFormField(
@@ -115,7 +115,6 @@ class _AddExerciseFormState extends State<AddExerciseForm> {
                       var success = _formKey.currentState?.validate();
                       if (success ?? false) {
                         var newExercise = Exercise(
-                          id: const Uuid().v1(),
                           name: _nameController.text,
                           reps: int.tryParse(_repsController.text) ?? 0,
                           sets: int.tryParse(_setsController.text) ?? 0,

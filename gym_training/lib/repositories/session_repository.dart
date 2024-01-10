@@ -19,6 +19,7 @@ class SessionRepository {
 
   Session? getCurrentSession() {
     var sessionString = sharedPreferences.read<String>(SharedKeys.userDataKey);
+
     if (sessionString == null) return null;
     return Session.fromJson(sessionString);
   }

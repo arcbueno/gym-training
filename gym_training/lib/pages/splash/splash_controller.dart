@@ -11,6 +11,7 @@ class SplashController {
 
   Future<bool> isUserLoggedin() async {
     var session = shared.read<String>(SharedKeys.userDataKey);
+
     return session != null;
   }
 }

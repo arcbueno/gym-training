@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gym_training/models/training_day.dart';
+import 'package:gym_training/pages/training_execution/training_execution_page.dart';
 import 'package:gym_training/utils/extensions.dart';
 
 class TrainingListItem extends StatelessWidget {
@@ -26,7 +28,9 @@ class TrainingListItem extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(() => TrainingExecutionPage(trainingDay: trainingDay));
+            },
             icon: const Icon(Icons.play_arrow_rounded),
           )
         ],

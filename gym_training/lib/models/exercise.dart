@@ -1,17 +1,19 @@
+import 'package:uuid/uuid.dart';
+
 class Exercise {
-  late String? id;
+  late String id;
   late String name;
   late String? observation;
   late int reps;
   late int sets;
 
   Exercise({
-    this.id,
+    String? itemId,
     required this.name,
     required this.reps,
     required this.sets,
     this.observation,
-  });
+  }) : id = itemId ?? const Uuid().v1();
 
   Exercise copyWith({
     String? id,
@@ -21,7 +23,7 @@ class Exercise {
     int? sets,
   }) {
     return Exercise(
-      id: id ?? this.id,
+      itemId: id ?? this.id,
       name: name ?? this.name,
       observation: observation ?? this.observation,
       reps: reps ?? this.reps,
@@ -38,13 +40,14 @@ class Exercise {
     result.addAll({'name': name});
     result.addAll({'reps': reps});
     result.addAll({'sets': sets});
+    result.addAll({'id': id});
 
     return result;
   }
 
   factory Exercise.fromMap(Map<String, dynamic> map) {
     return Exercise(
-      id: map['id'],
+      itemId: map['id'],
       name: map['name'],
       observation: map['observation'],
       reps: map['reps'],

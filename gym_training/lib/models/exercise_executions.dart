@@ -15,7 +15,7 @@ class ExerciseExecution {
   }) : id = itemId ?? const Uuid().v1();
 
   factory ExerciseExecution.fromBaseExercise(Exercise base) {
-    return ExerciseExecution(exerciseId: base.id!, weight: 0.0);
+    return ExerciseExecution(exerciseId: base.id, weight: 0.0);
   }
 
   ExerciseExecution copyWith({
