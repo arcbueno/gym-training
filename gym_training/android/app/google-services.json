@@ -7,6 +7,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:375648482396:android:b179f81d582282e5c12299",
+        "android_client_info": {
+          "package_name": "com.arcbueno.gym_training"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375648482396-uh2jj2vcbuurnpqkphkaenkh4chhsflh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOZl0NuPBPbsIo2f-e04Hwofu4212FnAo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375648482396-uh2jj2vcbuurnpqkphkaenkh4chhsflh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "375648482396-2leun0osf56p1f6h01r6l9n0a6lvprdd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gymTraining.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:375648482396:android:5c3ac2405f870fc6c12299",
         "android_client_info": {
           "package_name": "com.example.gym_training"
