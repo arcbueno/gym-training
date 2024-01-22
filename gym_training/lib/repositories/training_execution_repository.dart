@@ -28,6 +28,18 @@ class TrainingExecutionRepository {
     return TrainingExecution.fromFirebase(result.docs.last.data());
   }
 
+  Future<List<TrainingExecution>> getAllExecutions() async {
+    var result =
+        await _getPath().orderBy('executionDate', descending: false).get();
+    if (result.docs.isEmpty) return <TrainingExecution>[];
+    var all = <TrainingExecution>[];
+    for (var element in result.docs) {
+      all.add(TrainingExecution.fromFirebase(element.data()));
+    }
+
+    return all;
+  }
+
   Future<void> newExecution(TrainingExecution execution) async {
     await _getPath().add(execution.toMap());
   }

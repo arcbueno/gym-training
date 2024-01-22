@@ -4,6 +4,7 @@ import 'package:gym_training/pages/home/home_controller.dart';
 import 'package:gym_training/pages/home/state.dart';
 import 'package:gym_training/pages/login/login_page.dart';
 import 'package:gym_training/pages/new_training/new_training_page.dart';
+import 'package:gym_training/pages/home/calendar/calendar_view.dart';
 import 'package:gym_training/widgets/home_training_list.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,9 +35,7 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           IconButton(
-            onPressed: () async {
-              await _controller.getAll();
-            },
+            onPressed: _controller.refresh,
             icon: const Icon(Icons.refresh),
           ),
           IconButton(
@@ -57,13 +56,24 @@ class _HomePageState extends State<HomePage> {
             children: [
               Column(
                 children: [
-                  if (_controller.state.value is HomeSuccess)
+                  if (_controller.state.value is HomeListSuccess)
                     HomeTrainingList(
-                      trainingList:
-                          (_controller.state.value as HomeSuccess).trainingList,
+                      trainingList: (_controller.state.value as HomeListSuccess)
+                          .trainingList,
                       onNewTraining: _onNewTraining,
                       onRemove: (value) => _controller.onRemove(value),
                       onUpdate: (_) {},
+                      onChangeMode: _controller.changeView,
+                    ),
+                  if (_controller.state.value is HomeCalendarSuccess)
+                    CalendarView(
+                      trainingList:
+                          (_controller.state.value as HomeCalendarSuccess)
+                              .trainingList,
+                      executionList:
+                          (_controller.state.value as HomeCalendarSuccess)
+                              .executionList,
+                      onChangeMode: _controller.changeView,
                     ),
                   if (_controller.state.value is HomeError)
                     Text((_controller.state.value as HomeError).errorMessage),

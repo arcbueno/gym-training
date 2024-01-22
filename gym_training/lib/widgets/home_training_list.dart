@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gym_training/models/training_day.dart';
+import 'package:gym_training/utils/extensions.dart';
 import 'package:gym_training/widgets/home_empty_list.dart';
+import 'package:gym_training/widgets/home_mode_button.dart';
 import 'package:gym_training/widgets/training_list_item.dart';
 
 class HomeTrainingList extends StatelessWidget {
@@ -8,12 +10,14 @@ class HomeTrainingList extends StatelessWidget {
   final void Function() onNewTraining;
   final void Function(TrainingDay) onRemove;
   final void Function(TrainingDay) onUpdate;
+  final void Function() onChangeMode;
   const HomeTrainingList({
     super.key,
     required this.trainingList,
     required this.onNewTraining,
     required this.onRemove,
     required this.onUpdate,
+    required this.onChangeMode,
   });
 
   @override
@@ -24,11 +28,21 @@ class HomeTrainingList extends StatelessWidget {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            HomeModeButton(
+              onChangeMode: onChangeMode,
+              isCalendar: false,
+            ),
             OutlinedButton(
               onPressed: onNewTraining,
-              child: const Icon(Icons.add),
+              child: Row(
+                children: [
+                  const Text('New'),
+                  4.w,
+                  const Icon(Icons.add),
+                ],
+              ),
             ),
           ],
         ),

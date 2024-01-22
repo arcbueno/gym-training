@@ -37,18 +37,17 @@ class AppBindings extends Bindings {
       fenix: true,
     );
     Get.lazyPut(
-      () => HomeController(
-        sessionRepository: Get.find(),
-        trainingRepository: Get.find(),
-      ),
-      fenix: true,
-    );
-
-    // Execution
-    Get.lazyPut(
       () => TrainingExecutionRepository(
         firestore: Get.find(),
         sessionRepository: Get.find(),
+      ),
+      fenix: true,
+    );
+    Get.lazyPut(
+      () => HomeController(
+        sessionRepository: Get.find(),
+        trainingRepository: Get.find(),
+        trainingExecutionRepository: Get.find(),
       ),
       fenix: true,
     );
