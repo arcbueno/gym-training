@@ -14,7 +14,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   await Firebase.initializeApp(
-    // name: 'gym_training',
+    name: 'gym_training',
     options: FirebaseOptions(
       apiKey: const String.fromEnvironment('apiKey'),
       appId: Platform.isAndroid

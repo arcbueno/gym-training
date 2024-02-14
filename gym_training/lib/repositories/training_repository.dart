@@ -19,7 +19,7 @@ class TrainingRepository {
 
   Future<List<TrainingDay>> getAll() async {
     List<TrainingDay> all = <TrainingDay>[];
-    var result = await _getPath().get();
+    var result = await _getPath().where('isActive', isEqualTo: true).get();
     for (var element in result.docs) {
       all.add(TrainingDay.fromFirebase(element.data()));
     }
@@ -32,9 +32,8 @@ class TrainingRepository {
   }
 
   Future<void> remove(TrainingDay trainingDay) async {
-    var doc = (await _getPath().where('id', isEqualTo: trainingDay.id).get())
-        .docs
-        .first;
-    await _getPath().doc(doc.id).delete();
+    var deactivated = trainingDay.copyWith(isActive: false);
+
+    await _getPath().doc(trainingDay.id).update(deactivated.toMapNew());
   }
 }

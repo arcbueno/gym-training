@@ -7,6 +7,7 @@ class TrainingDay {
   late final DateTime? lastTimeExecuted;
   late final List<Exercise> exercises;
   late final String? observation;
+  late final bool isActive;
 
   TrainingDay({
     String? itemId,
@@ -14,6 +15,7 @@ class TrainingDay {
     required this.exercises,
     this.lastTimeExecuted,
     this.observation,
+    this.isActive = true,
   }) : id = itemId ?? const Uuid().v1();
 
   TrainingDay copyWith({
@@ -22,6 +24,7 @@ class TrainingDay {
     DateTime? lastTimeExecuted,
     List<Exercise>? exercises,
     String? observation,
+    bool? isActive,
   }) {
     return TrainingDay(
       itemId: id ?? this.id,
@@ -29,6 +32,7 @@ class TrainingDay {
       lastTimeExecuted: lastTimeExecuted ?? this.lastTimeExecuted,
       exercises: exercises ?? this.exercises,
       observation: observation ?? this.observation,
+      isActive: isActive ?? this.isActive,
     );
   }
 
@@ -44,6 +48,7 @@ class TrainingDay {
     if (observation != null) {
       result.addAll({'observation': observation!});
     }
+    result.addAll({'isActive': isActive});
 
     return result;
   }
@@ -54,6 +59,7 @@ class TrainingDay {
         title: data["title"],
         lastTimeExecuted: data["lastTimeExecuted"],
         observation: data["observation"],
+        isActive: data['isActive'],
         exercises: (data["exercises"] as List<dynamic>)
             .map((e) => Exercise.fromMap(e))
             .toList());

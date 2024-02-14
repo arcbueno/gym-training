@@ -3,7 +3,6 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:gym_training/models/training_day.dart';
 import 'package:gym_training/models/training_execution.dart';
 import 'package:gym_training/pages/home/calendar/calendar_controller.dart';
-import 'package:gym_training/utils/extensions.dart';
 import 'package:gym_training/widgets/home_mode_button.dart';
 import 'package:table_calendar/table_calendar.dart';
 
