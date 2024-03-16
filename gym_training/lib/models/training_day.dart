@@ -39,9 +39,9 @@ class TrainingDay {
   Map<String, dynamic> toMapNew() {
     final result = <String, dynamic>{};
 
+    result.addAll({'id': id});
     result.addAll({'title': title});
     result.addAll({'lastTimeExecuted': lastTimeExecuted});
-    result.addAll({'id': id});
     result.addAll({
       'exercises': exercises.map((e) => e.toMapNew()).toList(),
     });

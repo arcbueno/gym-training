@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:gym_training/models/session.dart';
 import 'package:gym_training/utils/shared_keys.dart';
+import 'package:result_dart/result_dart.dart';
 
 class SessionRepository {
   late final GetStorage sharedPreferences;
@@ -74,6 +75,21 @@ class SessionRepository {
     } catch (e) {
       log(e.toString());
       return false;
+    }
+  }
+
+  Future<Result<bool, Exception>> createUser(
+      String email, String password) async {
+    try {
+      await firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      return Result.success(true);
+    } catch (e) {
+      if (e is FirebaseAuthException) {
+        return Result.failure(Exception(e.message));
+      }
+
+      return Result.failure(Exception(e.toString()));
     }
   }
 }
