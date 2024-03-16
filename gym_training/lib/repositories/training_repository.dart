@@ -33,7 +33,14 @@ class TrainingRepository {
 
   Future<void> remove(TrainingDay trainingDay) async {
     var deactivated = trainingDay.copyWith(isActive: false);
+    var docId = (await _getPath().where('id', isEqualTo: trainingDay.id).get())
+        .docs
+        .first
+        .id;
+    var firebaseDoc = _getPath().doc(docId);
 
-    await _getPath().doc(trainingDay.id).update(deactivated.toMapNew());
+    await firebaseDoc.update(
+      deactivated.toMapNew(),
+    );
   }
 }
