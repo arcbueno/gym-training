@@ -6,7 +6,7 @@ import 'package:gym_training/utils/extensions.dart';
 import 'package:gym_training/widgets/custom_form_field.dart';
 import 'package:gym_training/widgets/exercise_bottom_sheet.dart';
 import 'package:gym_training/widgets/new_exercise_field.dart';
-import 'package:gym_training/widgets/save_button.dart';
+import 'package:gym_training/widgets/save_form_button.dart';
 
 class NewTrainingPage extends StatefulWidget {
   const NewTrainingPage({super.key});
@@ -134,15 +134,15 @@ class _NewTrainingPageState extends State<NewTrainingPage> {
                     child: SizedBox(
                       width: MediaQuery.sizeOf(context).width / 1.5,
                       height: 48,
-                      child: SaveButton(
-                        onPressed: () async {
+                      child: SaveFormButton(
+                        onTap: () async {
                           var success = _controller.validateAllExercises();
                           if (success && _formKey.currentState!.validate()) {
                             bool success = await _controller.save();
                             if (success) Get.back();
                           }
                         },
-                        title: 'Save',
+                        text: 'Save',
                       ),
                     ),
                   )
