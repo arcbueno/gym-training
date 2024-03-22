@@ -5,6 +5,7 @@ import 'package:gym_training/models/training_day.dart';
 import 'package:gym_training/pages/training_execution/state.dart';
 import 'package:gym_training/pages/training_execution/training_execution_controller.dart';
 import 'package:gym_training/utils/extensions.dart';
+import 'package:gym_training/widgets/alarm_bottom_sheet/alarm_bottom_sheet.dart';
 import 'package:gym_training/widgets/custom_form_field.dart';
 import 'package:gym_training/widgets/error_text.dart';
 import 'package:gym_training/widgets/save_form_button.dart';
@@ -36,6 +37,7 @@ class _TrainingExecutionPageState extends State<TrainingExecutionPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        bottomNavigationBar: const AlarmBottomSheet(),
         appBar: AppBar(
           centerTitle: true,
           title: Text(
