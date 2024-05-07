@@ -16,8 +16,8 @@ void main() async {
   await GetStorage.init();
   await Alarm.init();
   await Firebase.initializeApp(
-    // Comment when generating release
-    // name: 'gym_training',
+    // Comment the name when running/building for Android
+    name: 'gym_training',
     options: FirebaseOptions(
       apiKey: const String.fromEnvironment('apiKey'),
       appId: Platform.isAndroid

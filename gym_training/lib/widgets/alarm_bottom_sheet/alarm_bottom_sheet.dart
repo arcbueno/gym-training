@@ -21,6 +21,12 @@ class _AlarmBottomSheetState extends State<AlarmBottomSheet> {
   }
 
   @override
+  void dispose() {
+    controller.stop();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
