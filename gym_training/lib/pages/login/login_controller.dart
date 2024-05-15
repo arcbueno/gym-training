@@ -18,9 +18,13 @@ class LoginController {
   Future<bool> login() async {
     try {
       state.value = LoginLoading();
-      await repository.login(email!, password!);
-      state.value = LoginSuccess();
-      return true;
+      var result = await repository.login(email!, password!);
+      if (result == null) {
+        state.value = LoginSuccess();
+        return true;
+      }
+      state.value = LoginError(errorMessage: result);
+      return false;
     } catch (e) {
       log(e.toString());
       state.value = LoginError(errorMessage: e.toString());

@@ -46,9 +46,11 @@ class TrainingExecution {
       itemId: data['id'],
       executionDate: (data["executionDate"]).toDate(),
       trainingId: data["trainingId"],
-      exerciseExecutions: (data["exerciseExecutions"] as List<dynamic>)
-          .map((e) => ExerciseExecution.fromMap(e))
-          .toList(),
+      exerciseExecutions: data["exerciseExecutions"] != null
+          ? (data["exerciseExecutions"] as List<dynamic>)
+              .map((e) => ExerciseExecution.fromMap(e))
+              .toList()
+          : [],
     );
   }
 

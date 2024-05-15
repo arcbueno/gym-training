@@ -14,6 +14,9 @@ class SaveFormButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.amber.shade200,
+      ),
       onPressed: isLoading ? null : onTap,
       child: isLoading
           ? const SizedBox(

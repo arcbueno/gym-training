@@ -17,7 +17,7 @@ void main() async {
   await Alarm.init();
   await Firebase.initializeApp(
     // Comment the name when running/building for Android
-    name: 'gym_training',
+    // name: 'gym_training',
     options: FirebaseOptions(
       apiKey: const String.fromEnvironment('apiKey'),
       appId: Platform.isAndroid

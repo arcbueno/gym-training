@@ -4,7 +4,7 @@ import 'package:gym_training/pages/new_training/new_training_controller.dart';
 import 'package:gym_training/pages/new_training/state.dart';
 import 'package:gym_training/utils/extensions.dart';
 import 'package:gym_training/widgets/custom_form_field.dart';
-import 'package:gym_training/widgets/exercise_bottom_sheet.dart';
+import 'package:gym_training/widgets/exercise_bottom_sheet/exercise_bottom_sheet.dart';
 import 'package:gym_training/widgets/new_exercise_field.dart';
 import 'package:gym_training/widgets/save_form_button.dart';
 

@@ -6,6 +6,7 @@ class Exercise {
   late String? observation;
   late int reps;
   late int sets;
+  late List<Exercise> parallelExercises;
 
   Exercise({
     String? itemId,
@@ -13,6 +14,7 @@ class Exercise {
     required this.reps,
     required this.sets,
     this.observation,
+    this.parallelExercises = const [],
   }) : id = itemId ?? const Uuid().v1();
 
   Exercise copyWith({
@@ -21,6 +23,7 @@ class Exercise {
     String? observation,
     int? reps,
     int? sets,
+    List<Exercise>? parallelExercises,
   }) {
     return Exercise(
       itemId: id ?? this.id,
@@ -28,6 +31,7 @@ class Exercise {
       observation: observation ?? this.observation,
       reps: reps ?? this.reps,
       sets: sets ?? this.sets,
+      parallelExercises: parallelExercises ?? this.parallelExercises,
     );
   }
 
@@ -41,6 +45,9 @@ class Exercise {
     result.addAll({'reps': reps});
     result.addAll({'sets': sets});
     result.addAll({'id': id});
+    result.addAll({
+      'parallelExercises': parallelExercises.map((e) => e.toMapNew()).toList(),
+    });
 
     return result;
   }
@@ -52,6 +59,10 @@ class Exercise {
       observation: map['observation'],
       reps: map['reps'],
       sets: map['sets'],
+      parallelExercises: map['parallelExercises'] != null
+          ? List<Exercise>.from(
+              map['parallelExercises']?.map((x) => Exercise.fromMap(x)))
+          : [],
     );
   }
 
@@ -64,7 +75,8 @@ class Exercise {
         other.name == name &&
         other.observation == observation &&
         other.reps == reps &&
-        other.sets == sets;
+        other.sets == sets &&
+        other.parallelExercises == parallelExercises;
   }
 
   @override
@@ -73,6 +85,7 @@ class Exercise {
         name.hashCode ^
         observation.hashCode ^
         reps.hashCode ^
-        sets.hashCode;
+        sets.hashCode ^
+        parallelExercises.hashCode;
   }
 }

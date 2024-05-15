@@ -36,24 +36,29 @@ class SessionRepository {
     });
   }
 
-  Future<bool> login(String emailAddress, String password) async {
+  Future<String?> login(String emailAddress, String password) async {
+    String? error;
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailAddress,
         password: password,
       );
       await _createNewSession(credential);
-      return true;
+      return null;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        log('The password provided is too weak.');
+        error = 'The password provided is too weak.';
       } else if (e.code == 'email-already-in-use') {
-        log('The account already exists for that email.');
+        error = 'The account already exists for that email.';
+      } else if (e.code == 'invalid-credential') {
+        error = 'Email or password is invalid';
       }
+      log(error ?? '');
     } catch (e) {
       log(e.toString());
+      error = e.toString();
     }
-    return false;
+    return error;
   }
 
   Future<void> _createNewSession(UserCredential userCredential) async {
@@ -83,7 +88,7 @@ class SessionRepository {
     try {
       await firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
-      return Result.success(true);
+      return const Result.success(true);
     } catch (e) {
       if (e is FirebaseAuthException) {
         return Result.failure(Exception(e.message));

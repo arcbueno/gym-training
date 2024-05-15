@@ -61,6 +61,24 @@ class TrainingExecutionController {
     executions.refresh();
   }
 
+  bool validate() {
+    if (executions.any((element) =>
+        element.completed &&
+        element.parallelExererciseExecution
+            .contains((e) => !element.completed))) {
+      // show error;
+      return false;
+    }
+    if (executions.any((element) =>
+        !element.completed &&
+        element.parallelExererciseExecution
+            .contains((e) => element.completed))) {
+      // show error;
+      return false;
+    }
+    return true;
+  }
+
   Future<bool> save() async {
     try {
       state.value = TraningExecutionLoading();
