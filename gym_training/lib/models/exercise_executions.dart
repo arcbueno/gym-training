@@ -6,29 +6,41 @@ class ExerciseExecution {
   late final String exerciseId;
   late final double weight;
   late final bool completed;
+  late final List<ExerciseExecution> parallelExererciseExecution;
 
   ExerciseExecution({
     String? itemId,
     required this.exerciseId,
     required this.weight,
     this.completed = false,
+    this.parallelExererciseExecution = const [],
   }) : id = itemId ?? const Uuid().v1();
 
   factory ExerciseExecution.fromBaseExercise(Exercise base) {
-    return ExerciseExecution(exerciseId: base.id, weight: 0.0);
+    return ExerciseExecution(
+      exerciseId: base.id,
+      weight: 0.0,
+      parallelExererciseExecution: base.parallelExercises.isNotEmpty
+          ? base.parallelExercises
+              .map((e) => ExerciseExecution.fromBaseExercise(e))
+              .toList()
+          : [],
+    );
   }
 
-  ExerciseExecution copyWith({
-    String? id,
-    String? exerciseId,
-    double? weight,
-    bool? completed,
-  }) {
+  ExerciseExecution copyWith(
+      {String? id,
+      String? exerciseId,
+      double? weight,
+      bool? completed,
+      List<ExerciseExecution>? parallelExererciseExecution}) {
     return ExerciseExecution(
       itemId: id ?? this.id,
       exerciseId: exerciseId ?? this.exerciseId,
       weight: weight ?? this.weight,
       completed: completed ?? this.completed,
+      parallelExererciseExecution:
+          parallelExererciseExecution ?? this.parallelExererciseExecution,
     );
   }
 
@@ -41,6 +53,10 @@ class ExerciseExecution {
     result.addAll({'exerciseId': exerciseId});
     result.addAll({'weight': weight});
     result.addAll({'completed': completed});
+    result.addAll({
+      'parallelExererciseExecution':
+          parallelExererciseExecution.map((e) => e.toMap()).toList()
+    });
 
     return result;
   }
@@ -51,6 +67,11 @@ class ExerciseExecution {
       exerciseId: map['exerciseId'],
       weight: map['weight'],
       completed: map['completed'],
+      parallelExererciseExecution: map['parallelExererciseExecution'] != null
+          ? (map['parallelExererciseExecution'] as List<dynamic>)
+              .map((e) => ExerciseExecution.fromMap(e))
+              .toList()
+          : [],
     );
   }
 }

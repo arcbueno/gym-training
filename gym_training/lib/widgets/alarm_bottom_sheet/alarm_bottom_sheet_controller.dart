@@ -49,7 +49,9 @@ class AlarmBottomSheetController {
   }
 
   Future<void> stop() async {
-    await Alarm.stop(_state.value.currentAlarm!.id);
+    if (_state.value.isRunning) {
+      await Alarm.stop(_state.value.currentAlarm!.id);
+    }
     _state.value = _state.value.copyWith(
       isRunning: false,
     );

@@ -29,26 +29,56 @@ class NewExerciseField extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${item.sets.toString()} sets / ${item.reps.toString()} reps per set',
-                style: Theme.of(context).textTheme.titleMedium,
-                textAlign: TextAlign.start,
-              ),
-              12.h,
-              Text(
-                !item.observation.isNullOrEmpty
-                    ? item.observation!
-                    : 'No observation',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: item.observation.isNullOrEmpty ? Colors.grey : null),
-              ),
-              12.h,
-            ],
+          child: ExerciseData(
+            item: item,
           ),
-        )
+        ),
+      ],
+    );
+  }
+}
+
+class ExerciseData extends StatelessWidget {
+  final Exercise item;
+  final bool isParallel;
+  const ExerciseData({
+    super.key,
+    required this.item,
+    this.isParallel = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (isParallel) ...[
+          const Icon(Icons.add),
+          Text(
+            item.name,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ],
+        Text(
+          '${item.sets.toString()} sets / ${item.reps.toString()} reps per set',
+          style: Theme.of(context).textTheme.titleMedium,
+          textAlign: TextAlign.start,
+        ),
+        12.h,
+        Text(
+          !item.observation.isNullOrEmpty
+              ? item.observation!
+              : 'No observation',
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: item.observation.isNullOrEmpty ? Colors.grey : null),
+        ),
+        12.h,
+        ...item.parallelExercises.map(
+          (e) => ExerciseData(
+            item: e,
+            isParallel: true,
+          ),
+        ),
       ],
     );
   }

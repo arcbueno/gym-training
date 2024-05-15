@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:gym_training/models/training_day.dart';
 import 'package:gym_training/pages/training_execution/state.dart';
 import 'package:gym_training/pages/training_execution/training_execution_controller.dart';
+import 'package:gym_training/pages/training_execution/widgets/execution_list_item.dart';
 import 'package:gym_training/utils/extensions.dart';
 import 'package:gym_training/widgets/alarm_bottom_sheet/alarm_bottom_sheet.dart';
 import 'package:gym_training/widgets/custom_form_field.dart';
@@ -78,72 +78,14 @@ class _TrainingExecutionPageState extends State<TrainingExecutionPage> {
                           itemCount: _controller.executions.length,
                           itemBuilder: (context, index) {
                             var item = _controller.executions[index];
-                            var exercise =
-                                _controller.getByExerciseId(item.exerciseId);
-                            var lastExecution =
-                                _controller.getLasExecution(item.exerciseId);
-                            return Row(
-                              children: [
-                                Expanded(
-                                  child: CheckboxListTile(
-                                    controlAffinity:
-                                        ListTileControlAffinity.leading,
-                                    value: item.completed,
-                                    onChanged: (val) {
-                                      _controller.updateExecution(item.copyWith(
-                                          completed: val ?? false));
-                                    },
-                                    title: Text(exercise.name),
-                                    subtitle: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            '${exercise.sets} of ${exercise.reps}'),
-                                        if (!exercise.observation.isNullOrEmpty)
-                                          Text('\n${exercise.observation!}'),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Column(
-                                  children: [
-                                    if (lastExecution?.weight
-                                            .toStringAsFixed(2) !=
-                                        null) ...[
-                                      Text(
-                                          'Last: ${lastExecution?.weight.toStringAsFixed(2)}'),
-                                      4.h,
-                                    ],
-                                    SizedBox(
-                                      width: 100,
-                                      child: CustomFormField(
-                                        validator: (String? val) {
-                                          if (val.isNullOrEmpty &&
-                                              item.completed) {
-                                            return 'Required';
-                                          }
-                                          return null;
-                                        },
-                                        hintText: 'Weight',
-                                        onChanged: (String? val) {
-                                          _controller.updateExecution(
-                                              item.copyWith(
-                                                  weight: double.tryParse(
-                                                      val ?? '')));
-                                        },
-                                        maxLines: 1,
-                                        keyboardType: const TextInputType
-                                            .numberWithOptions(decimal: true),
-                                        inputFormatters: <TextInputFormatter>[
-                                          FilteringTextInputFormatter.allow(
-                                              RegExp(r'^(\d+)?\.?\d{0,2}'))
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            return ExecutionListItem(
+                              key: ValueKey(item.id),
+                              item: item,
+                              exercise:
+                                  _controller.getByExerciseId(item.exerciseId),
+                              lastExecution:
+                                  _controller.getLastExecution(item.exerciseId),
+                              onEditExecution: _controller.updateExecution,
                             );
                           },
                           separatorBuilder: (BuildContext context, int index) {
@@ -235,8 +177,10 @@ class _TrainingExecutionPageState extends State<TrainingExecutionPage> {
                         padding: const EdgeInsets.only(bottom: 12),
                         child: SaveFormButton(
                           onTap: () async {
-                            if (_formKey.currentState?.validate() ?? false) {
+                            if ((_formKey.currentState?.validate() ?? false) &&
+                                _controller.validate()) {
                               var success = await _controller.save();
+
                               if (success) {
                                 Get.back();
                               }
