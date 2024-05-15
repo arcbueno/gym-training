@@ -79,11 +79,12 @@ class _TrainingExecutionPageState extends State<TrainingExecutionPage> {
                           itemBuilder: (context, index) {
                             var item = _controller.executions[index];
                             return ExecutionListItem(
+                              key: ValueKey(item.id),
                               item: item,
                               exercise:
                                   _controller.getByExerciseId(item.exerciseId),
                               lastExecution:
-                                  _controller.getLasExecution(item.exerciseId),
+                                  _controller.getLastExecution(item.exerciseId),
                               onEditExecution: _controller.updateExecution,
                             );
                           },

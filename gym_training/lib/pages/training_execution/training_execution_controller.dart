@@ -32,7 +32,7 @@ class TrainingExecutionController {
     getLastTraining();
   }
 
-  ExerciseExecution? getLasExecution(String exerciseId) {
+  ExerciseExecution? getLastExecution(String exerciseId) {
     if (lastTraining == null || lastTraining!.exerciseExecutions.isEmpty) {
       return null;
     }
@@ -55,7 +55,23 @@ class TrainingExecutionController {
     return trainingDay.exercises.singleWhere((element) => element.id == id);
   }
 
-  void updateExecution(ExerciseExecution item) {
+  void updateExecution(ExerciseExecution item, [bool isChild = false]) {
+    if (isChild) {
+      var parent = executions
+          .where((element) => element.parallelExererciseExecution
+              .any((element) => element.id == item.id))
+          .firstOrNull;
+      if (parent != null) {
+        var childIndex = parent.parallelExererciseExecution
+            .indexWhere((element) => element.exerciseId == item.exerciseId);
+        parent.parallelExererciseExecution[childIndex] = item;
+
+        var parentIndex = executions.indexOf(parent);
+        executions[parentIndex] = parent;
+        executions.refresh();
+      }
+      return;
+    }
     var index = executions.indexWhere((element) => element.id == item.id);
     executions[index] = item;
     executions.refresh();

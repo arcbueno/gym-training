@@ -28,17 +28,19 @@ class ExerciseExecution {
     );
   }
 
-  ExerciseExecution copyWith({
-    String? id,
-    String? exerciseId,
-    double? weight,
-    bool? completed,
-  }) {
+  ExerciseExecution copyWith(
+      {String? id,
+      String? exerciseId,
+      double? weight,
+      bool? completed,
+      List<ExerciseExecution>? parallelExererciseExecution}) {
     return ExerciseExecution(
       itemId: id ?? this.id,
       exerciseId: exerciseId ?? this.exerciseId,
       weight: weight ?? this.weight,
       completed: completed ?? this.completed,
+      parallelExererciseExecution:
+          parallelExererciseExecution ?? this.parallelExererciseExecution,
     );
   }
 
@@ -66,7 +68,7 @@ class ExerciseExecution {
       weight: map['weight'],
       completed: map['completed'],
       parallelExererciseExecution: map['parallelExererciseExecution'] != null
-          ? map['parallelExererciseExecution']
+          ? (map['parallelExererciseExecution'] as List<dynamic>)
               .map((e) => ExerciseExecution.fromMap(e))
               .toList()
           : [],

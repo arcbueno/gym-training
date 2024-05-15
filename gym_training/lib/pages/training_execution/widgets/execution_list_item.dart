@@ -9,13 +9,15 @@ class ExecutionListItem extends StatelessWidget {
   final ExerciseExecution item;
   final Exercise exercise;
   final ExerciseExecution? lastExecution;
-  final Function(ExerciseExecution) onEditExecution;
+  final Function(ExerciseExecution, bool) onEditExecution;
+  final bool isChild;
   const ExecutionListItem({
     super.key,
     required this.item,
     required this.exercise,
     required this.onEditExecution,
     this.lastExecution,
+    this.isChild = false,
   });
 
   @override
@@ -29,7 +31,8 @@ class ExecutionListItem extends StatelessWidget {
                 controlAffinity: ListTileControlAffinity.leading,
                 value: item.completed,
                 onChanged: (val) {
-                  onEditExecution(item.copyWith(completed: val ?? false));
+                  onEditExecution(
+                      item.copyWith(completed: val ?? false), isChild);
                 },
                 title: Text(exercise.name),
                 subtitle: Column(
@@ -60,7 +63,8 @@ class ExecutionListItem extends StatelessWidget {
                     hintText: 'Weight',
                     onChanged: (String? val) {
                       onEditExecution(
-                          item.copyWith(weight: double.tryParse(val ?? '')));
+                          item.copyWith(weight: double.tryParse(val ?? '')),
+                          isChild);
                     },
                     maxLines: 1,
                     keyboardType:
@@ -84,6 +88,7 @@ class ExecutionListItem extends StatelessWidget {
                         const Icon(Icons.add),
                         Expanded(
                           child: ExecutionListItem(
+                            isChild: true,
                             item: item.parallelExererciseExecution.firstWhere(
                                 (element) => element.exerciseId == e.id),
                             exercise: e,
